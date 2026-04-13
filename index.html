@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Game</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .quiz-container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .option {
+      display: block;
+      background: #eee;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .option:hover {
+      background: #dcdcdc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h2 id="question">Question</h2>
+  <div id="options"></div>
+  <button onclick="nextQuestion()">Next</button>
+  <p id="score"></p>
+</div>
+
+<script>
+  const quiz = [
+    {
+      question: "What is the capital of India?",
+      options: ["Mumbai", "Delhi", "Kolkata", "Chennai"],
+      answer: "Delhi"
+    },
+    {
+      question: "Which language is used for web apps?",
+      options: ["Python", "Java", "JavaScript", "C++"],
+      answer: "JavaScript"
+    },
+    {
+      question: "Who is known as Father of Computer?",
+      options: ["Einstein", "Charles Babbage", "Newton", "Tesla"],
+      answer: "Charles Babbage"
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const q = quiz[currentQuestion];
+    document.getElementById("question").innerText = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach(option => {
+      const btn = document.createElement("div");
+      btn.classList.add("option");
+      btn.innerText = option;
+      btn.onclick = () => checkAnswer(option);
+      optionsDiv.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(selected) {
+    if (selected === quiz[currentQuestion].answer) {
+      score++;
+      alert("Correct!");
+    } else {
+      alert("Wrong!");
+    }
+  }
+
+  function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quiz.length) {
+      loadQuestion();
+    } else {
+      document.querySelector(".quiz-container").innerHTML =
+        `<h2>Quiz Completed!</h2>
+         <p>Your Score: ${score}/${quiz.length}</p>`;
+    }
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
